@@ -1,0 +1,45 @@
+"""
+Created on 10/7/2016
+@author: vandenel
+"""
+import pip
+pip.main(['install','tweepy'])
+
+
+#Import the necessary methods from tweepy library
+from tweepy.streaming import StreamListener
+from tweepy import OAuthHandler
+from tweepy import Stream
+
+#Variables that contains the user credentials to access Twitter API 
+access_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+access_token_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+consumer_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+consumer_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+#This is a basic listener that just prints received tweets to stdout.
+class StdOutListener(StreamListener):
+
+    def on_data(self, data):
+        #print data
+        with open('H/vandenel/ACA Exchanges_Twitter\ACA enrollment_mentions_Twitter.txt','a') as tf:             
+            tf.write(data)
+        return True
+
+    def on_error(self, status): 
+        #print status 
+        if __name__ == '__main__':
+
+        #This handles Twitter authetification and the connection to Twitter Streaming API
+            l = StdOutListener()
+        auth = OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_token, access_token_secret)
+        stream = Stream(auth, l)
+
+        #This line filter Twitter Streams to capture data by the keyword 'Zika'
+        stream.filter(track=['enroll' 'ACA' 'insurance' 'switch' 'plan' 'provider' 'health'])
+        
+
+
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
